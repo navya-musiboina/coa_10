@@ -1,16 +1,16 @@
-2.A ORG 100h                ; Origin for a COM file format (used in DOS)
+ORG 100h                ; Origin for a COM file format (used in DOS)
 
 start:
-    mov al, '9'         ; Start with ASCII value of '9'
+    mov al, 'A'         ; Start with ASCII value of 'A'
+    mov cx, 26          ; Set loop counter to 26 (for letters A to Z)
 
-print_digit:
+print_letter:
     mov ah, 02h         ; DOS function to print a character
-    mov dl, al          ; Move current character into DL (character to print)
+    mov dl, al          ; Move current letter into DL (character to print)
     int 21h             ; Call DOS interrupt to print the character in DL
 
-    dec al              ; Move to the previous digit (e.g., '9' to '8', '8' to '7', etc.)
-    cmp al, '0'         ; Check if we have reached '0'
-    jge print_digit     ; If AL >= '0', continue looping
+    inc al              ; Move to the next letter (e.g., 'A' to 'B', 'B' to 'C', etc.)
+    loop print_letter   ; Decrement CX and loop if CX is not zero
 
     ; Print a newline
     mov ah, 02h         ; DOS function to print a character
@@ -21,4 +21,4 @@ print_digit:
 
     ; Exit program
     mov ah, 4Ch         ; DOS function to terminate the program
-    int 21h             ; End program
+    int 21h
